@@ -29,6 +29,9 @@ def main():
         r = requests.get(dogm_url, data=payload)
         page = r.text
         soup = BeautifulSoup(page, 'html.parser')
+        # there are no ids or anything useful to track down needed info
+        # so we have to search for the only <h4></h4> header tag present
+        # on that page
         status = soup.find('h4')
         print(entry['reg_num'] + ': ' + status.string)
 
