@@ -31,7 +31,7 @@ class ApostilleChecker():
         return "{0}: {1}".format(self.payload['RegNumber'], self.status)
 
 
-    def update_status(self):
+    def request_status(self):
         r = requests.get(self.dogm_url, data=self.payload)
         page = r.text
         soup = BeautifulSoup(page, 'html.parser')
@@ -47,7 +47,7 @@ def main():
     entries = read_entries('entries.json')
     for entry in entries['entry']:
         checker = ApostilleChecker(entry)
-        checker.update_status()
+        checker.request_status()
         print(checker)
 
 
