@@ -59,6 +59,9 @@ class ApostilleChecker():
         self.status = (self._response_to_status(response), response)
         return self.status
 
+    def get_cached_status(self):
+        return self.status
+
 
 def main():
     entries = read_entries('entries.json')
