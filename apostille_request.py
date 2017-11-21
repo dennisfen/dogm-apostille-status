@@ -38,7 +38,7 @@ class ApostilleChecker():
         return "{0}: {1}".format(self.payload['RegNumber'], self.status[1])
 
 
-    def response_to_status(self, response):
+    def _response_to_status(self, response):
         known_responses = {
                 "Ваш апостиль готов": ApostilleStatus.READY,
                 "Документ принят к рассмотрению. Заявление находится в работе":
@@ -56,7 +56,7 @@ class ApostilleChecker():
         # so we have to search for the only <h4></h4> header tag present
         # on that page
         response = soup.find('h4').string
-        self.status = (self.response_to_status(response), response)
+        self.status = (self._response_to_status(response), response)
         return self.status
 
 
