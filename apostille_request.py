@@ -5,16 +5,18 @@ import requests
 from bs4 import BeautifulSoup
 from enum import Enum
 
+
 def read_entries(filename):
     try:
         with open(filename, 'r') as f:
             apostilles = json.load(f)
             return apostilles
     except FileNotFoundError:
-            print('Cannot find entries file \'', filename, '\'')
+        print('Cannot find entries file \'', filename, '\'')
     except json.JSONDecodeError as e:
-            print('Cannot parse JSON-file: ', str(e))
+        print('Cannot parse JSON-file: ', str(e))
     return None
+
 
 class ApostilleStatus(Enum):
     UNKNOWN = 0
@@ -22,17 +24,17 @@ class ApostilleStatus(Enum):
     NOT_READY = 2
     READY = 3
 
+
 class ApostilleChecker():
     dogm_url = 'https://dogm-1-trp.mos.ru/Search'
 
     def __init__(self, entry):
         self.payload = {
-                'RegNumber': entry['reg_num'],
-                'HolderLastName': entry['last_name'],
-                'HolderFirstName': entry['first_name']
+            'RegNumber': entry['reg_num'],
+            'HolderLastName': entry['last_name'],
+            'HolderFirstName': entry['first_name']
         }
         self.status = (ApostilleStatus.UNKNOWN, 'Нет данных')
-
 
     def __str__(self):
         return "{0}: {1}".format(self.payload['RegNumber'], self.status[1])
@@ -40,10 +42,10 @@ class ApostilleChecker():
 
     def _response_to_status(self, response):
         known_responses = {
-                "Ваш апостиль готов": ApostilleStatus.READY,
-                "Документ принят к рассмотрению. Заявление находится в работе":
+            "Ваш апостиль готов": ApostilleStatus.READY,
+            "Документ принят к рассмотрению. Заявление находится в работе":
                 ApostilleStatus.NOT_READY,
-                "Ничего не найдено": ApostilleStatus.NOT_FOUND
+            "Ничего не найдено": ApostilleStatus.NOT_FOUND
         }
         return known_responses.get(response, ApostilleStatus.UNKNOWN)
 
@@ -51,7 +53,7 @@ class ApostilleChecker():
         r = requests.get(self.dogm_url, data=self.payload)
         page = r.text
         soup = BeautifulSoup(page, 'html.parser')
-        
+
         # there are no ids or anything useful to track down needed info
         # so we have to search for the only <h4></h4> header tag present
         # on that page
