@@ -39,8 +39,8 @@ class ApostilleChecker():
     def __str__(self):
         return "{0}: {1}".format(self.payload['RegNumber'], self.status[1])
 
-
-    def _response_to_status(self, response):
+    @staticmethod
+    def _response_to_status(response):
         known_responses = {
             "Ваш апостиль готов": ApostilleStatus.READY,
             "Документ принят к рассмотрению. Заявление находится в работе":
