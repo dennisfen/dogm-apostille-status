@@ -37,7 +37,7 @@ class ApostilleChecker():
         self.status = (ApostilleStatus.UNKNOWN, 'Нет данных')
 
     def __str__(self):
-        return "{0}: {1}".format(self.payload['RegNumber'], self.status[1])
+        return "{0}: {1}".format(self.id, self.status_string)
 
     @staticmethod
     def _response_to_status(response):
@@ -63,6 +63,23 @@ class ApostilleChecker():
 
     def get_cached_status(self):
         return self.status
+
+    @property
+    def id(self):
+        return self.payload['RegNumber']
+
+    @property
+    def name(self):
+        return "{0} {1}".format(self.payload['HolderFirstName'],
+                                self.payload['HolderLastName'])
+
+    @property
+    def status_code(self):
+        return self.status[0]
+
+    @property
+    def status_string(self):
+        return  self.status[1]
 
 
 def main():
