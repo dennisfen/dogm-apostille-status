@@ -79,7 +79,7 @@ class ApostilleChecker():
 
     @property
     def status_string(self):
-        return  self.status[1]
+        return self.status[1]
 
 
 def main():
