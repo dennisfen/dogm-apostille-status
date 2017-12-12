@@ -61,6 +61,7 @@ class MainWindow(QWidget):
         self.v_box.addWidget(self.table_view)
 
         self.setLayout(self.v_box)
+        self.setMinimumSize(500, 200)
         self.setWindowTitle('Статус подготовки апостилей')
         self.show()
 
